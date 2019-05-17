@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -65,6 +66,7 @@ public class Controller {
                 basePath = "D:\\";
             }
             textFieldBasePath.setText(basePath);
+            textFieldSource.setText(basePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,7 +94,7 @@ public class Controller {
         dataUtiles.saveProperties(BASE_PATH, directory.getPath());
         basePath = directory.getPath();
         textFieldBasePath.setText(basePath);
-
+        textFieldSource.setText(basePath);
     }
 
     private void setExtention() {
@@ -104,10 +106,10 @@ public class Controller {
         setExtention();
         listResult = new ArrayList<>();
         Runnable st = () -> {
-            System.out.println(LocalTime.now() + " Start for " + lookingFor + " " + "at" + LocalTime.now() + "---------------------------------------------------------------------------------------------------------\n");
+            System.out.println(LocalTime.now() + " Start for \"" + lookingFor + "\" " + " at " + LocalTime.now() + "---------------------------------------------------------------------------------------------------------\n");
             System.out.println(LocalTime.now() + "-----------------------------------------------------------------------------------------------------------------------------------------------------\n");
             lookingFor = textFieldWord.getText();
-            textAreaMessage.setText("Start for " + lookingFor + " " + "at" + LocalTime.now() + "---------------------------------------------------------------------------------------------------------\n");
+            addMessage("Start for " + lookingFor + " " + "at" + LocalTime.now() + "---------------------------------------------------------------------------------------------------------\n");
             if (lookingFor != null && !lookingFor.isEmpty()) {
                 try {
                     Files.walk(Paths.get(textFieldSource.getText()))
@@ -120,13 +122,14 @@ public class Controller {
                     });
                 } catch (Exception e) {
 
-                    textAreaMessage.appendText(e.getMessage() + "\n");
+                    addMessage(e.getMessage() + "\n");
                 }
             } else {
-                textAreaMessage.appendText("The text or path field is empty" + "\n");
+                addMessage("The text or path field is empty" + "\n");
                 return;
             }
-            textAreaMessage.setText("Stop for \"" + lookingFor + "\" " + "at" + LocalTime.now());
+            addMessage("\n" + "Stop for \"" + lookingFor + "\" " + " at " + LocalTime.now());
+            System.out.println(LocalTime.now() + " Stop for " + lookingFor + " " + " at " + LocalTime.now() + "---------------------------------------------------------------------------------------------------------\n");
 //        System.out.println(LocalTime.now());
 //            textAreaMessage.appendText(LocalTime.now().toString());
 //            textAreaMessage.appendText("\n");
@@ -158,15 +161,22 @@ public class Controller {
 
             listResult.add(path.toString());
             System.out.println(path.toString());
+            addMessage(path.toString());
             for (String one : list) {
                 this.count = count + 1;
                 System.out.println(" " + count + ":  " + one);
+                addMessage("\n" + count + ":  " + one);
                 listResult.add(" " + count + ":  " + one);
             }
             System.out.println("--------------");
+            addMessage("\n" + "--------------");
             listResult.add("--------------");
         }
 
+    }
+
+    private void addMessage(String line) {
+        Platform.runLater(() -> textAreaMessage.appendText(line));
     }
 
 }
