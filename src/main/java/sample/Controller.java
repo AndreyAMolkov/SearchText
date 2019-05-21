@@ -66,7 +66,7 @@ public class Controller {
                 basePath = "D:\\";
             }
             if (dataUtiles.getProperties(EXTENSION_FILE) != null) {
-                setExtension = Boolean.getBoolean(dataUtiles.getProperties(EXTENSION_FILE));
+                setExtension = Boolean.parseBoolean(dataUtiles.getProperties(EXTENSION_FILE));
             }
             textFieldBasePath.setText(basePath);
             textFieldSource.setText(basePath);
