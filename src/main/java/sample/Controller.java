@@ -13,6 +13,7 @@ import service.DataUtiles;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,18 +21,18 @@ import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Controller {
     private final String BASE_PATH = "basePath";
+    private final String EXTENSION_FILE = "extensionOfFile";
     @FXML
     public Button button;
     @FXML
     public Button buttonStart;
     @FXML
-    public Button buttonSearchWhithExtention;
+    public Button buttonClearTextField;
     @FXML
     public Button buttonSetBasePath;
     @FXML
@@ -50,14 +51,13 @@ public class Controller {
     private int count;
     private String lookingFor;
     private String basePath;
+    private Boolean setExtension;
     private DataUtiles dataUtiles;
-    private String extention;
-
+    private String extension;
 
     public void initialize() {
         lookingFor = "";
-
-        Properties p;
+        setExtension = false;
         basePath = null;
         try {
             dataUtiles = new DataUtiles();
@@ -65,10 +65,15 @@ public class Controller {
             if (basePath == null) {
                 basePath = "D:\\";
             }
+            if (dataUtiles.getProperties(EXTENSION_FILE) != null) {
+                setExtension = Boolean.getBoolean(dataUtiles.getProperties(EXTENSION_FILE));
+            }
             textFieldBasePath.setText(basePath);
             textFieldSource.setText(basePath);
-        } catch (IOException e) {
+            checkBoxJava.setSelected(setExtension);
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
+            addMessage("\n" + e.getMessage());
         }
 
 
@@ -92,6 +97,7 @@ public class Controller {
         File directory = getPathFromDirectoryChooser();
 
         dataUtiles.saveProperties(BASE_PATH, directory.getPath());
+        dataUtiles.saveProperties(EXTENSION_FILE, Boolean.toString(checkBoxJava.isSelected()));
         basePath = directory.getPath();
         textFieldBasePath.setText(basePath);
         textFieldSource.setText(basePath);
@@ -99,7 +105,7 @@ public class Controller {
 
     private void setExtention() {
         boolean result = checkBoxJava.isSelected();
-        extention = (result) ? Constants.EXTENTION_JAVA : Constants.EMPTY;
+        extension = (result) ? Constants.EXTENTION_JAVA : Constants.EMPTY;
     }
 
     public void onStart() {
@@ -128,25 +134,20 @@ public class Controller {
                 addMessage("The text or path field is empty" + "\n");
                 return;
             }
-            addMessage("\n" + "Stop for \"" + lookingFor + "\" " + " at " + LocalTime.now());
+            addMessage("\n" + "Stop for \"" + lookingFor + "\" " + " at " + LocalTime.now() + "\n" + "\n" + "\n");
             System.out.println(LocalTime.now() + " Stop for " + lookingFor + " " + " at " + LocalTime.now() + "---------------------------------------------------------------------------------------------------------\n");
-//        System.out.println(LocalTime.now());
-//            textAreaMessage.appendText(LocalTime.now().toString());
-//            textAreaMessage.appendText("\n");
-//            for(String one:listResult) {
-//                textAreaMessage.appendText(one);
-//                textAreaMessage.appendText("\n");
-//            }
-//            textAreaMessage.appendText(LocalTime.now().toString());
-//            textAreaMessage.appendText("\n");
+
         };
         Thread start = new Thread(st);
         start.start();
     }
 
+    public void onClear() {
+        textAreaMessage.setText("");
+    }
 
     private void readLines(Path path) throws IOException {
-        if (!path.toString().endsWith(extention)) {
+        if (!path.toString().endsWith(extension)) {
             return;
         }
         List<String> list = new ArrayList<>();

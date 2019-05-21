@@ -36,9 +36,9 @@
                                         <CheckBox fx:id="checkBoxJava" layoutX="49.0" layoutY="100.0"
                                                   mnemonicParsing="false" prefHeight="17.0" prefWidth="158.0"
                                                   text=" .java"/>
-                                        <Button fx:id="buttonSearchWhithExtention" layoutX="228.0" layoutY="151.0"
-                                                mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0"
-                                                text="Search"/>
+                                        <Button fx:id="buttonClearTextField" layoutX="228.0" layoutY="151.0"
+                                                mnemonicParsing="false" onAction="#onClear" prefHeight="25.0"
+                                                prefWidth="69.0" text="clear"/>
                                     </children>
                                 </Pane>
                             </children>
