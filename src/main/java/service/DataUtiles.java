@@ -1,12 +1,16 @@
 package service;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.Constants;
+import model.Line;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Properties;
 
 public class DataUtiles {
@@ -31,26 +35,8 @@ public class DataUtiles {
 
     }
 
-    private static File createResourceSubFolder() throws URISyntaxException, IOException {
-        //       java.net.URL url = Main.class.getResource("/sample/");
-//        System.out.println(url.getPath());
-//        File fullPathToSubfolder = new File(url.toURI()).getAbsoluteFile();
-//        File fullPathToSubfolder = (new File(Main.class.getResource("/sample/").getPath())).getAbsoluteFile();
-//        System.out.println("----" + fullPathToSubfolder.getAbsolutePath() + "------");
-//        String projectFolder = fullPathToSubfolder.getAbsolutePath().split("sample")[0];
-
-//        System.out.println("----" + projectFolder + "------");
+    private static File createResourceSubFolder() throws IOException {
         File fileTest;
-
-
-//        String pathFile = testResults.getAbsolutePath() + "\\" + Constants.PROPERTIES_NAME;
-//        System.out.println("----" + pathFile + "------");
-//        if (resource == null) {
-//            fileTest = new File(pathFile);
-//            fileTest.createNewFile();
-//            System.out.println("Create new file -" + fileTest.getAbsolutePath());
-//        }else{
-//            fileTest = new File(resource.getPath());
         File fileDir = new File("C:\\temp\\config\\");
         if (!fileDir.exists()) {
             fileDir.mkdir();
@@ -60,8 +46,6 @@ public class DataUtiles {
         if (!fileTest.exists()) {
             fileTest.createNewFile();
         }
-
-//        }
 
         return fileTest;
     }
@@ -83,5 +67,32 @@ public class DataUtiles {
         }
     }
 
+    public File getFile(String path) {
+        File file = new File(path);
+        if (file.exists()) {
+            return file;
+        }
+        return null;
+    }
 
+    public ObservableList<Line> getLineList(List<String> list) {
+        ObservableList<Line> listResult = FXCollections.observableArrayList();
+        for (String one : list) {
+            listResult.add(getLine(one));
+        }
+
+        return listResult;
+    }
+
+    public Line getLine(String line) {
+        String[] buffer;
+        Line result;
+        if (line.contains(Constants.SEPARATOR)) {
+            buffer = (line.split(Constants.SEPARATOR));
+            result = new Line(buffer[0].trim(), buffer[1].trim(), buffer[2].trim());
+        } else {
+            result = new Line("-----", "------", line);
+        }
+        return result;
+    }
 }

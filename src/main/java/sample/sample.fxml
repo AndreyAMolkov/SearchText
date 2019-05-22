@@ -3,20 +3,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.web.HTMLEditor?>
 <Pane xmlns:fx="http://javafx.com/fxml/1" prefHeight="923.0" prefWidth="1181.0" xmlns="http://javafx.com/javafx/8"
       fx:controller="sample.Controller">
     <children>
         <TabPane layoutY="4.0" prefHeight="917.0" prefWidth="1181.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab text="Untitled Tab 1">
+                <Tab text="General">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <Pane layoutY="1.0" prefHeight="887.0" prefWidth="1181.0">
+                                <Pane layoutY="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                      prefHeight="887.0" prefWidth="1181.0">
                                     <children>
                                         <Label layoutX="18.0" layoutY="100.0" prefHeight="17.0" prefWidth="90.0"
-                                               text="Text"/>
+                                               text="file extension"/>
                                         <Button fx:id="buttonStart" layoutX="156.0" layoutY="151.0"
                                                 mnemonicParsing="false" onAction="#onStart" text="Search"/>
                                         <TextField fx:id="textFieldWord" layoutX="15.0" layoutY="126.0"
@@ -24,34 +24,39 @@
                                         <TextField fx:id="textFieldSource" layoutX="15.0" layoutY="43.0"
                                                    prefHeight="25.0" prefWidth="328.0"/>
                                         <Label layoutX="18.0" layoutY="26.0" prefHeight="17.0" prefWidth="90.0"
-                                               text="Path"/>
+                                               text="path"/>
                                         <Button fx:id="button" layoutX="143.0" layoutY="68.0" mnemonicParsing="false"
                                                 onAction="#fileOpen" text="FileChooser"/>
-                                        <TextArea fx:id="textAreaMessage" layoutX="8.0" layoutY="185.0"
-                                                  prefHeight="706.0" prefWidth="1172.0"/>
-                                        <Button fx:id="buttonSetBasePath" layoutX="327.0" layoutY="2.0"
-                                                mnemonicParsing="false" onAction="#onCreateBasePathSetting" text="set"/>
+                                        <TextArea fx:id="textAreaMessage" editable="false" layoutX="8.0" layoutY="185.0"
+                                                  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                                  prefHeight="710.0" prefWidth="1300.0"/>
+                                        <Button fx:id="buttonSetBasePath" layoutX="327.0" layoutY="11.0"
+                                                mnemonicParsing="false" onAction="#onCreateBasePathSetting"
+                                                prefHeight="25.0" prefWidth="132.0" text="set value by default"/>
                                         <TextField fx:id="textFieldBasePath" layoutX="63.0" layoutY="11.0"
                                                    prefHeight="25.0" prefWidth="258.0"/>
-                                        <CheckBox fx:id="checkBoxJava" layoutX="49.0" layoutY="100.0"
+                                        <CheckBox fx:id="checkBoxJava" disable="true" layoutX="100.0" layoutY="100.0"
                                                   mnemonicParsing="false" prefHeight="17.0" prefWidth="158.0"
                                                   text=" .java"/>
                                         <Button fx:id="buttonClearTextField" layoutX="228.0" layoutY="151.0"
                                                 mnemonicParsing="false" onAction="#onClear" prefHeight="25.0"
-                                                prefWidth="69.0" text="clear"/>
+                                                prefWidth="69.0" text="clear all"/>
+                                        <Label layoutX="53.0" layoutY="151.0" prefHeight="33.0" prefWidth="90.0"/>
+                                        <Label fx:id="labelCount" layoutX="40.0" layoutY="72.0" prefHeight="23.0"
+                                               prefWidth="90.0"/>
                                     </children>
                                 </Pane>
                             </children>
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="Untitled Tab 2">
+                <Tab text="Result">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="843.0" prefWidth="1166.0">
                             <children>
-                                <HTMLEditor fx:id="htmlEditor"
-                                            htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;"
-                                            layoutX="12.0" layoutY="22.0" prefHeight="790.0" prefWidth="1106.0"/>
+                                <TableView fx:id="tableView" layoutX="1.0" layoutY="-2.0"
+                                           maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                           prefHeight="891.0" prefWidth="1800.0"/>
                             </children>
                         </AnchorPane>
                     </content>
