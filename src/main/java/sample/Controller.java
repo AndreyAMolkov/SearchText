@@ -28,11 +28,10 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Controller {
-    private final String BASE_PATH = "basePath";
-    private final String EXTENSION_FILE = "extensionOfFile";
+    private static final String BASE_PATH = "basePath";
+    private static final String EXTENSION_FILE = "extensionOfFile";
 
     @FXML
     public Label labelCount;
@@ -71,7 +70,7 @@ public class Controller {
     public static void autoResizeColumns(TableView<?> table) {
         //Set the right policy
         table.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-        table.getColumns().stream().forEach((column) ->
+        table.getColumns().stream().forEach(column ->
         {
             //Minimal width = columnheader
             Text t = new Text(column.getText());
@@ -146,8 +145,13 @@ public class Controller {
     }
 
     public void onClear() {
+
         textAreaMessage.setText("");
         tableView.getItems().clear();
+        Line line = new Line("-", "-", "-");
+        listObservable.add(line);
+        Platform.runLater(() -> tableView.setItems(listObservable));
+
     }
 
     public void onStart() {
@@ -183,7 +187,7 @@ public class Controller {
 
                 try {
                     Files.walk(Paths.get(textFieldSource.getText()))
-                            .filter(Files::isRegularFile).forEach((one) -> {
+                            .filter(Files::isRegularFile).forEach(one -> {
                         try {
                             readLines(one);
 
@@ -230,14 +234,14 @@ public class Controller {
             return;
         }
         List<String> list = new ArrayList<>();
-        Stream<String> lines = Files.lines(path, StandardCharsets.ISO_8859_1);
-        List<String> listAll = lines.collect(Collectors.toList());
+        List<String> listAll = Files.lines(path, StandardCharsets.ISO_8859_1)
+                .collect(Collectors.toList());
         for (int i = 0; i < listAll.size(); i++) {
             if (listAll.get(i) != null && listAll.get(i).toLowerCase().contains(lookingFor.toLowerCase())) {
                 list.add("" + i + Constants.SEPARATOR + listAll.get(i));
             }
         }
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             print(path.toString());
             //           addMessage(path.toString());
             for (String one : list) {
@@ -263,13 +267,13 @@ public class Controller {
         if (!tableView.getItems().isEmpty()) {
             return;
         }
-        TableColumn<Line, String> number = new TableColumn<Line, String>("number");
-        TableColumn<Line, String> position = new TableColumn<Line, String>("position");
-        TableColumn<Line, String> comment = new TableColumn<Line, String>("comment");
+        TableColumn<Line, String> number = new TableColumn<>("number");
+        TableColumn<Line, String> position = new TableColumn<>("position");
+        TableColumn<Line, String> comment = new TableColumn<>("comment");
 
-        number.setCellValueFactory(new PropertyValueFactory<Line, String>("number"));
-        position.setCellValueFactory(new PropertyValueFactory<Line, String>("position"));
-        comment.setCellValueFactory(new PropertyValueFactory<Line, String>("comment"));
+        number.setCellValueFactory(new PropertyValueFactory<>("number"));
+        position.setCellValueFactory(new PropertyValueFactory<>("position"));
+        comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
         tableView.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() > 1) {
                 onChoose();
