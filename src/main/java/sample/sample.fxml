@@ -17,7 +17,7 @@
                                     <children>
                                         <Label layoutX="18.0" layoutY="100.0" prefHeight="17.0" prefWidth="90.0"
                                                text="file extension"/>
-                                        <Button fx:id="buttonStart" layoutX="156.0" layoutY="151.0"
+                                        <Button fx:id="buttonStart" layoutX="250.0" layoutY="155.0"
                                                 mnemonicParsing="false" onAction="#onStart" text="Search"/>
                                         <TextField fx:id="textFieldWord" layoutX="15.0" layoutY="126.0"
                                                    prefHeight="25.0" prefWidth="612.0"/>
@@ -36,14 +36,16 @@
                                         <TextField fx:id="textFieldBasePath" layoutX="63.0" layoutY="11.0"
                                                    prefHeight="25.0" prefWidth="258.0"/>
                                         <CheckBox fx:id="checkBoxJava" layoutX="100.0" layoutY="100.0"
-                                                  mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0"
-                                                  text=" .java"/>
-                                        <Button fx:id="buttonClearTextField" layoutX="228.0" layoutY="151.0"
+                                                  mnemonicParsing="false" onAction="#setExtension" prefHeight="17.0"
+                                                  prefWidth="57.0" text=" .java"/>
+                                        <Button fx:id="buttonClearTextField" layoutX="309.0" layoutY="155.0"
                                                 mnemonicParsing="false" onAction="#onClear" prefHeight="25.0"
                                                 prefWidth="69.0" text="clear all"/>
-                                        <Label layoutX="53.0" layoutY="151.0" prefHeight="33.0" prefWidth="90.0"/>
                                         <Label fx:id="labelCount" layoutX="40.0" layoutY="72.0" prefHeight="23.0"
                                                prefWidth="90.0"/>
+                                        <CheckBox fx:id="checkBoxLowCase" layoutX="85.0" layoutY="159.0"
+                                                  mnemonicParsing="false" onAction="#setToLowerCase" prefHeight="17.0"
+                                                  prefWidth="82.0" text="toLowCase"/>
                                     </children>
                                 </Pane>
                             </children>

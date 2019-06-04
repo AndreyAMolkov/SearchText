@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class Controller {
     private static final String BASE_PATH = "basePath";
     private static final String EXTENSION_FILE = "extensionOfFile";
-
+    private static final String TO_LOWER_CASE = "toLowerCase";
     @FXML
     public Label labelCount;
     @FXML
@@ -48,6 +48,9 @@ public class Controller {
     @FXML
     public CheckBox checkBoxJava;
     @FXML
+    public CheckBox checkBoxLowCase;
+
+    @FXML
     public TextField textFieldBasePath;
     @FXML
     public TextField textFieldSource;
@@ -60,12 +63,14 @@ public class Controller {
     private int count;
     private String lookingFor;
     private String basePath;
-    private Boolean setExtension;
+    private Boolean extensionOfJava;
+    private boolean toLowCase;
     private DataUtiles dataUtiles;
     private String extension;
     private ObservableList<Line> listObservable;
     private File file;
     private Integer countLabel;
+
 
     public static void autoResizeColumns(TableView<?> table) {
         //Set the right policy
@@ -110,21 +115,26 @@ public class Controller {
 
         dataUtiles.saveProperties(BASE_PATH, directory.getPath());
         dataUtiles.saveProperties(EXTENSION_FILE, Boolean.toString(checkBoxJava.isSelected()));
+        dataUtiles.saveProperties(TO_LOWER_CASE, Boolean.toString(checkBoxLowCase.isSelected()));
         basePath = directory.getPath();
         textFieldBasePath.setText(basePath);
         textFieldSource.setText(basePath);
     }
 
-    private void setExtension() {
+    public void setExtension() {
         boolean result = checkBoxJava.isSelected();
         extension = (result) ? Constants.EXTENTION_JAVA : Constants.EMPTY;
     }
 
+    public void setToLowerCase() {
+        toLowCase = checkBoxJava.isSelected();
+    }
     public void initialize() {
         countLabel = 0;
         file = null;
         lookingFor = "";
-        setExtension = true;
+        extensionOfJava = true;
+        toLowCase = true;
         basePath = null;
         try {
             dataUtiles = new DataUtiles();
@@ -133,11 +143,15 @@ public class Controller {
                 basePath = "D:\\";
             }
             if (dataUtiles.getProperties(EXTENSION_FILE) != null) {
-                setExtension = Boolean.parseBoolean(dataUtiles.getProperties(EXTENSION_FILE));
+                extensionOfJava = Boolean.parseBoolean(dataUtiles.getProperties(EXTENSION_FILE));
+            }
+            if (dataUtiles.getProperties(TO_LOWER_CASE) != null) {
+                toLowCase = Boolean.parseBoolean(dataUtiles.getProperties(TO_LOWER_CASE));
             }
             textFieldBasePath.setText(basePath);
             textFieldSource.setText(basePath);
-            checkBoxJava.setSelected(setExtension);
+            checkBoxJava.setSelected(extensionOfJava);
+            checkBoxLowCase.setSelected(toLowCase);
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
             addMessage("\n" + e.getMessage());
@@ -212,7 +226,7 @@ public class Controller {
         Platform.runLater(() -> createTableColumn());
     }
 
-    private void setCountLabel() throws IOException {
+    public void setCountLabel() throws IOException {
         Platform.runLater(() -> labelCount.setText("working"));
         this.countLabel = (int) Files.walk(Paths.get(textFieldSource.getText())).count();
         addMessageLabelCount(countLabel, true);
@@ -237,7 +251,7 @@ public class Controller {
         List<String> listAll = Files.lines(path, StandardCharsets.ISO_8859_1)
                 .collect(Collectors.toList());
         for (int i = 0; i < listAll.size(); i++) {
-            if (listAll.get(i) != null && listAll.get(i).toLowerCase().contains(lookingFor.toLowerCase())) {
+            if (listAll.get(i) != null && toFindText(listAll.get(i))) {
                 list.add("" + i + Constants.SEPARATOR + listAll.get(i));
             }
         }
@@ -251,6 +265,21 @@ public class Controller {
             print("--------------");
         }
 
+    }
+
+    private boolean isLowCase() {
+        return checkBoxLowCase.isSelected();
+    }
+
+
+    private boolean toFindText(String line) {
+        String modifiedLookingFor = lookingFor;
+        String modifiedLine = line;
+        if (isLowCase()) {
+            modifiedLine = line.toLowerCase();
+            modifiedLookingFor = lookingFor.toLowerCase();
+        }
+        return modifiedLine.contains(modifiedLookingFor);
     }
 
     private void setFile(String path) {
