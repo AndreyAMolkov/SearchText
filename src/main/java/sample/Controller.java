@@ -44,6 +44,10 @@ public class Controller {
     @FXML
     public Button buttonSetBasePath;
     @FXML
+    public TabPane tabPaneGeneral;
+
+
+    @FXML
     public TableView tableView;
     @FXML
     public CheckBox checkBoxJava;
@@ -70,7 +74,7 @@ public class Controller {
     private ObservableList<Line> listObservable;
     private File file;
     private Integer countLabel;
-
+    private List<Tab> listTab;
 
     public static void autoResizeColumns(TableView<?> table) {
         //Set the right policy
@@ -136,6 +140,7 @@ public class Controller {
         extensionOfJava = true;
         toLowCase = true;
         basePath = null;
+        listTab = new ArrayList<>();
         try {
             dataUtiles = new DataUtiles();
             basePath = dataUtiles.getProperties(BASE_PATH);
@@ -161,13 +166,19 @@ public class Controller {
     public void onClear() {
 
         textAreaMessage.setText("");
-        tableView.getItems().clear();
+        removeTabAll();
         Line line = new Line("-", "-", "-");
-        listObservable.add(line);
-        Platform.runLater(() -> tableView.setItems(listObservable));
+        //       listObservable.add(line);
+        //       Platform.runLater(() -> tableView.setItems(listObservable));
 
     }
 
+    private void removeTabAll() {
+        if (tabPaneGeneral.getTabs().size() > 1) {
+            tabPaneGeneral.getTabs().remove(1, tabPaneGeneral.getTabs().size());
+        }
+
+    }
     public void onStart() {
         countLabel = 0;
         setExtension();
@@ -293,9 +304,10 @@ public class Controller {
     }
 
     private void createTableColumn() {
-        if (!tableView.getItems().isEmpty()) {
-            return;
-        }
+//        if (!tableView.getItems().isEmpty()) {
+//            return;
+//        }
+        createNewTab();
         TableColumn<Line, String> number = new TableColumn<>("number");
         TableColumn<Line, String> position = new TableColumn<>("position");
         TableColumn<Line, String> comment = new TableColumn<>("comment");
@@ -337,6 +349,15 @@ public class Controller {
         if (listObservable != null) {
             listObservable.add(dataUtiles.getLine(line));
         }
+    }
+
+    private void createNewTab() {
+        Tab tab = new Tab();
+        tab.setText(lookingFor);
+        tableView = new TableView();
+        tab.setContent(tableView);
+        listTab.add(tab);
+        Platform.runLater(() -> tabPaneGeneral.getTabs().add(tab));
     }
 
 }
