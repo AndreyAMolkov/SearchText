@@ -47,6 +47,9 @@
                                         <CheckBox fx:id="checkBoxLowCase" layoutX="85.0" layoutY="159.0"
                                                   mnemonicParsing="false" onAction="#setToLowerCase" prefHeight="17.0"
                                                   prefWidth="82.0" text="toLowCase"/>
+                                        <CheckBox fx:id="checkBoxPathWithTest" layoutX="281.0" layoutY="100.0"
+                                                  mnemonicParsing="false" onAction="#setPathWithTest" prefHeight="17.0"
+                                                  prefWidth="77.0" text="Class test"/>
                                     </children>
                                 </Pane>
                             </children>

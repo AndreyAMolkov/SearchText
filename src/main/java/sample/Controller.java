@@ -33,6 +33,7 @@ public class Controller {
     private static final String BASE_PATH = "basePath";
     private static final String EXTENSION_FILE = "extensionOfFile";
     private static final String TO_LOWER_CASE = "toLowerCase";
+    private static final String PATH_WITH_TEST = "pathWithTest";
     @FXML
     public Label labelCount;
     @FXML
@@ -53,7 +54,8 @@ public class Controller {
     public CheckBox checkBoxJava;
     @FXML
     public CheckBox checkBoxLowCase;
-
+    @FXML
+    public CheckBox checkBoxPathWithTest;
     @FXML
     public TextField textFieldBasePath;
     @FXML
@@ -71,6 +73,7 @@ public class Controller {
     private boolean toLowCase;
     private DataUtiles dataUtiles;
     private String extension;
+    private Boolean pathWithTest;
     private ObservableList<Line> listObservable;
     private File file;
     private Integer countLabel;
@@ -120,6 +123,7 @@ public class Controller {
         dataUtiles.saveProperties(BASE_PATH, directory.getPath());
         dataUtiles.saveProperties(EXTENSION_FILE, Boolean.toString(checkBoxJava.isSelected()));
         dataUtiles.saveProperties(TO_LOWER_CASE, Boolean.toString(checkBoxLowCase.isSelected()));
+        dataUtiles.saveProperties(PATH_WITH_TEST, Boolean.toString(checkBoxPathWithTest.isSelected()));
         basePath = directory.getPath();
         textFieldBasePath.setText(basePath);
         textFieldSource.setText(basePath);
@@ -131,14 +135,20 @@ public class Controller {
     }
 
     public void setToLowerCase() {
-        toLowCase = checkBoxJava.isSelected();
+        toLowCase = checkBoxLowCase.isSelected();
     }
+
+    public void setPathWithTest() {
+        pathWithTest = checkBoxPathWithTest.isSelected();
+    }
+
     public void initialize() {
         countLabel = 0;
         file = null;
         lookingFor = "";
         extensionOfJava = true;
         toLowCase = true;
+        pathWithTest = true;
         basePath = null;
         listTab = new ArrayList<>();
         try {
@@ -153,10 +163,14 @@ public class Controller {
             if (dataUtiles.getProperties(TO_LOWER_CASE) != null) {
                 toLowCase = Boolean.parseBoolean(dataUtiles.getProperties(TO_LOWER_CASE));
             }
+            if (dataUtiles.getProperties(PATH_WITH_TEST) != null) {
+                pathWithTest = Boolean.parseBoolean(dataUtiles.getProperties(PATH_WITH_TEST));
+            }
             textFieldBasePath.setText(basePath);
             textFieldSource.setText(basePath);
             checkBoxJava.setSelected(extensionOfJava);
             checkBoxLowCase.setSelected(toLowCase);
+            checkBoxPathWithTest.setSelected(pathWithTest);
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
             addMessage("\n" + e.getMessage());
@@ -167,10 +181,6 @@ public class Controller {
 
         textAreaMessage.setText("");
         removeTabAll();
-        Line line = new Line("-", "-", "-");
-        //       listObservable.add(line);
-        //       Platform.runLater(() -> tableView.setItems(listObservable));
-
     }
 
     private void removeTabAll() {
@@ -184,6 +194,7 @@ public class Controller {
         setExtension();
         listResult = new ArrayList<>();
         lookingFor = textFieldWord.getText();
+        createTableColumn();
         Runnable first = () -> {
             try {
                 setCountLabel();
@@ -234,7 +245,6 @@ public class Controller {
         };
         Thread start = new Thread(st);
         start.start();
-        Platform.runLater(() -> createTableColumn());
     }
 
     public void setCountLabel() throws IOException {
@@ -258,6 +268,9 @@ public class Controller {
         if (!path.toString().endsWith(extension)) {
             return;
         }
+        if (!pathWithTest && path.toString().toLowerCase().contains(Constants.TEST)) {
+            return;
+        }
         List<String> list = new ArrayList<>();
         List<String> listAll = Files.lines(path, StandardCharsets.ISO_8859_1)
                 .collect(Collectors.toList());
@@ -268,7 +281,6 @@ public class Controller {
         }
         if (!list.isEmpty()) {
             print(path.toString());
-            //           addMessage(path.toString());
             for (String one : list) {
                 this.count = count + 1;
                 print(" " + count + Constants.SEPARATOR + one);
@@ -304,9 +316,6 @@ public class Controller {
     }
 
     private void createTableColumn() {
-//        if (!tableView.getItems().isEmpty()) {
-//            return;
-//        }
         createNewTab();
         TableColumn<Line, String> number = new TableColumn<>("number");
         TableColumn<Line, String> position = new TableColumn<>("position");
@@ -352,12 +361,13 @@ public class Controller {
     }
 
     private void createNewTab() {
+        this.count = 0;
         Tab tab = new Tab();
         tab.setText(lookingFor);
         tableView = new TableView();
         tab.setContent(tableView);
         listTab.add(tab);
-        Platform.runLater(() -> tabPaneGeneral.getTabs().add(tab));
+        tabPaneGeneral.getTabs().add(tab);
     }
 
 }
