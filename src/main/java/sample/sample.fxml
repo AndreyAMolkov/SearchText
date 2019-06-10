@@ -3,10 +3,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<Pane xmlns:fx="http://javafx.com/fxml/1" prefHeight="923.0" prefWidth="1181.0" xmlns="http://javafx.com/javafx/8"
+<Pane xmlns:fx="http://javafx.com/fxml/1" prefHeight="923.0" prefWidth="1349.0" xmlns="http://javafx.com/javafx/8"
       fx:controller="sample.Controller">
     <children>
-        <TabPane fx:id="tabPaneGeneral" layoutY="4.0" prefHeight="917.0" prefWidth="1900.0"
+        <TabPane fx:id="tabPaneGeneral" layoutX="8.0" layoutY="4.0" prefHeight="916.0" prefWidth="1892.0"
                  tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab text="General">
@@ -55,10 +55,10 @@
                                                   prefHeight="17.0" prefWidth="67.0" text="custom"/>
                                         <TextField fx:id="textFieldCustomExtension" layoutX="161.0" layoutY="118.0"
                                                    prefHeight="25.0" prefWidth="146.0"/>
-                                        <TextField fx:id="textFieldDontUseExtesion" layoutX="404.0" layoutY="122.0"
-                                                   prefHeight="25.0" prefWidth="146.0"/>
-                                        <Label layoutX="413.0" layoutY="97.0" prefHeight="17.0" prefWidth="129.0"
-                                               text="don't use extension"/>
+                                        <TextField fx:id="textFieldDontUseExtesion" layoutX="410.0" layoutY="91.0"
+                                                   prefHeight="44.0" prefWidth="434.0"/>
+                                        <Label layoutX="419.0" layoutY="66.0" prefHeight="17.0" prefWidth="129.0"
+                                               text="exclude - separate ' :  '"/>
                                     </children>
                                 </Pane>
                             </children>

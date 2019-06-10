@@ -1,6 +1,5 @@
 package sample;
 
-import com.google.common.base.Strings;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,6 +26,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,7 +81,7 @@ public class Controller {
     private boolean toLowCase;
     private DataUtiles dataUtiles;
     private String extension;
-    private String dontUseExtension;
+    private List<String> dontUseExtensionList;
     private Boolean pathWithTest;
     private ObservableList<Line> listObservable;
     private File file;
@@ -143,7 +143,7 @@ public class Controller {
         checkBoxCustom.setSelected(false);
         boolean result = checkBoxJava.isSelected();
         if (result) {
-            checkBoxCustom.setSelected(false);
+            //         checkBoxCustom.setSelected(false);
             extension = Constants.EXTENTION_JAVA;
         } else {
             extension = Constants.EMPTY;
@@ -152,17 +152,29 @@ public class Controller {
 
     private void setDontUseExtension() {
         String text = textFieldDontUseExtesion.getText();
-        if (Strings.isNullOrEmpty(text)) {
-            dontUseExtension = null;
+
+
+        if (isNullOrEmpty(text)) {
+            dontUseExtensionList = null;
+
         } else {
-            dontUseExtension = text;
+            dontUseExtensionList = Arrays.asList(text.split(Constants.SEPARATOR));
         }
+    }
+
+    private boolean isNullOrEmpty(String line) {
+        boolean result = false;
+        if (line == null || line.isEmpty() || " ".contains(line.trim())) {
+            result = true;
+        }
+
+        return result;
     }
 
     public void onSetExtensionCustom() {
         boolean result = checkBoxCustom.isSelected();
         if (result) {
-            checkBoxJava.setSelected(false);
+            //           checkBoxJava.setSelected(false);
             extension = textFieldCustomExtension.getText();
         } else {
             extension = Constants.EMPTY;
@@ -186,7 +198,7 @@ public class Controller {
         basePath = null;
         extension = Constants.EMPTY;
         listTab = new ArrayList<>();
-        dontUseExtension = null;
+        dontUseExtensionList = null;
         try {
             dataUtiles = new DataUtiles();
             basePath = dataUtiles.getProperties(BASE_PATH);
@@ -203,8 +215,9 @@ public class Controller {
                 pathWithTest = Boolean.parseBoolean(dataUtiles.getProperties(PATH_WITH_TEST));
             }
             if (dataUtiles.getProperties(DON_T_USE_EXTENSION) != null) {
-                dontUseExtension = (dataUtiles.getProperties(DON_T_USE_EXTENSION));
-                textFieldDontUseExtesion.setText(dontUseExtension);
+                String line = dataUtiles.getProperties(DON_T_USE_EXTENSION);
+                dontUseExtensionList = Arrays.asList(line.split(Constants.SEPARATOR));
+                textFieldDontUseExtesion.setText(line);
             }
             textFieldBasePath.setText(basePath);
             textFieldSource.setText(basePath);
@@ -305,19 +318,24 @@ public class Controller {
         }
     }
 
+    private boolean isWrongPath(Path path) {
+        boolean result = false;
+        String pathString = path.toString();
+        if (dontUseExtensionList != null) {
+            for (String exclude : dontUseExtensionList) {
+                if (pathString.contains(exclude)) {
+                    result = true;
+                }
+            }
+
+        }
+        return result;
+    }
     private void readLines(Path path) {
         addMessageLabelCount(countLabel--, false);
-        if ((dontUseExtension != null && !path.toString().endsWith(extension)) || !path.toString().endsWith(extension) || (!pathWithTest && path.toString().toLowerCase().contains(Constants.TEST))) {
+        if (isWrongPath(path) || !path.toString().endsWith(extension) || (!pathWithTest && path.toString().toLowerCase().contains(Constants.TEST))) {
             return;
         }
-
-
-//        if (!path.toString().endsWith(extension) || ()) {
-//            return;
-//        }
-//        if (!pathWithTest && path.toString().toLowerCase().contains(Constants.TEST)) {
-//            return;
-//        }
 
         List<String> list = new ArrayList<>();
         List<String> listAll;
@@ -419,8 +437,7 @@ public class Controller {
     private void createNewTab() {
         this.count = 0;
         Tab tab = new Tab();
-        String dontUseLine = (dontUseExtension == null) ? Constants.EMPTY : dontUseExtension;
-        String extensionLine = extension + "-X" + dontUseLine;
+        String extensionLine = extension + "-X" + textFieldDontUseExtesion.getText();
         tab.setText(lookingFor + " " + extensionLine);
         tableView = new TableView();
         tab.setContent(tableView);
