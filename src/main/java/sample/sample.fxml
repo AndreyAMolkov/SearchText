@@ -1,64 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<Pane xmlns:fx="http://javafx.com/fxml/1" prefHeight="923.0" prefWidth="1349.0" xmlns="http://javafx.com/javafx/8"
-      fx:controller="sample.Controller">
+
+<Pane prefHeight="923.0" prefWidth="1349.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <children>
-        <TabPane fx:id="tabPaneGeneral" layoutX="8.0" layoutY="4.0" prefHeight="916.0" prefWidth="1892.0"
-                 tabClosingPolicy="UNAVAILABLE">
+        <TabPane fx:id="tabPaneGeneral" layoutX="8.0" layoutY="4.0" prefHeight="916.0" prefWidth="1892.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab text="General">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <Pane layoutY="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                      prefHeight="887.0" prefWidth="1900.0">
+                                <Pane layoutY="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="887.0" prefWidth="1900.0">
                                     <children>
-                                        <Label layoutX="12.0" layoutY="121.0" prefHeight="17.0" prefWidth="90.0"
-                                               text="file extension"/>
-                                        <Button fx:id="buttonStart" layoutX="250.0" layoutY="190.0"
-                                                mnemonicParsing="false" onAction="#onStart" text="Search"/>
-                                        <TextField fx:id="textFieldWord" layoutX="11.0" layoutY="153.0"
-                                                   prefHeight="25.0" prefWidth="458.0"/>
-                                        <TextField fx:id="textFieldSource" layoutX="15.0" layoutY="43.0"
-                                                   prefHeight="25.0" prefWidth="328.0"/>
-                                        <Label layoutX="18.0" layoutY="26.0" prefHeight="17.0" prefWidth="90.0"
-                                               text="path"/>
-                                        <Button fx:id="button" layoutX="143.0" layoutY="68.0" mnemonicParsing="false"
-                                                onAction="#fileOpen" text="FileChooser"/>
-                                        <TextArea fx:id="textAreaMessage" editable="false" layoutX="2.0" layoutY="221.0"
-                                                  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                                  prefHeight="674.0" prefWidth="1906.0"/>
-                                        <Button fx:id="buttonSetBasePath" layoutX="327.0" layoutY="11.0"
-                                                mnemonicParsing="false" onAction="#onCreateBasePathSetting"
-                                                prefHeight="25.0" prefWidth="132.0" text="set value by default"/>
-                                        <TextField fx:id="textFieldBasePath" layoutX="63.0" layoutY="11.0"
-                                                   prefHeight="25.0" prefWidth="258.0"/>
-                                        <CheckBox fx:id="checkBoxJava" layoutX="86.0" layoutY="122.0"
-                                                  mnemonicParsing="false" onAction="#onSetExtensionJava"
-                                                  prefHeight="17.0" prefWidth="57.0" text=" .java"/>
-                                        <Button fx:id="buttonClearTextField" layoutX="309.0" layoutY="190.0"
-                                                mnemonicParsing="false" onAction="#onClear" prefHeight="25.0"
-                                                prefWidth="69.0" text="clear all"/>
-                                        <Label fx:id="labelCount" layoutX="40.0" layoutY="72.0" prefHeight="23.0"
-                                               prefWidth="90.0"/>
-                                        <CheckBox fx:id="checkBoxLowCase" layoutX="85.0" layoutY="194.0"
-                                                  mnemonicParsing="false" onAction="#setToLowerCase" prefHeight="17.0"
-                                                  prefWidth="82.0" text="toLowCase"/>
-                                        <CheckBox fx:id="checkBoxPathWithTest" layoutX="321.0" layoutY="125.0"
-                                                  mnemonicParsing="false" onAction="#setPathWithTest" prefHeight="17.0"
-                                                  prefWidth="77.0" text="Class test"/>
-                                        <CheckBox fx:id="checkBoxCustom" layoutX="187.0" layoutY="100.0"
-                                                  mnemonicParsing="false" onAction="#onSetExtensionCustom"
-                                                  prefHeight="17.0" prefWidth="67.0" text="custom"/>
-                                        <TextField fx:id="textFieldCustomExtension" layoutX="161.0" layoutY="118.0"
-                                                   prefHeight="25.0" prefWidth="146.0"/>
-                                        <TextField fx:id="textFieldDontUseExtesion" layoutX="410.0" layoutY="91.0"
-                                                   prefHeight="44.0" prefWidth="434.0"/>
-                                        <Label layoutX="419.0" layoutY="66.0" prefHeight="17.0" prefWidth="129.0"
-                                               text="exclude - separate ' :  '"/>
+                                        <Label layoutX="12.0" layoutY="121.0" prefHeight="17.0" prefWidth="90.0" text="file extension" />
+                                        <Button fx:id="buttonStart" layoutX="250.0" layoutY="190.0" mnemonicParsing="false" onAction="#onStart" text="Search" />
+                                        <TextField fx:id="textFieldWord" layoutX="11.0" layoutY="153.0" prefHeight="25.0" prefWidth="458.0" />
+                                        <TextField fx:id="textFieldSource" layoutX="15.0" layoutY="43.0" prefHeight="25.0" prefWidth="328.0" />
+                                        <Label layoutX="18.0" layoutY="26.0" prefHeight="17.0" prefWidth="90.0" text="path" />
+                                        <Button fx:id="button" layoutX="143.0" layoutY="68.0" mnemonicParsing="false" onAction="#fileOpen" text="FileChooser" />
+                                        <TextArea fx:id="textAreaMessage" editable="false" layoutX="2.0" layoutY="221.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="674.0" prefWidth="1906.0" />
+                                        <Button fx:id="buttonSetBasePath" layoutX="327.0" layoutY="11.0" mnemonicParsing="false" onAction="#onCreateBasePathSetting" prefHeight="25.0" prefWidth="132.0" text="set value by default" />
+                                        <TextField fx:id="textFieldBasePath" layoutX="63.0" layoutY="11.0" prefHeight="25.0" prefWidth="258.0" />
+                                        <CheckBox fx:id="checkBoxJava" layoutX="86.0" layoutY="122.0" mnemonicParsing="false" onAction="#onSetExtensionJava" prefHeight="17.0" prefWidth="57.0" text=" .java" />
+                                        <Button fx:id="buttonClearTextField" layoutX="309.0" layoutY="190.0" mnemonicParsing="false" onAction="#onClear" prefHeight="25.0" prefWidth="69.0" text="clear all" />
+                                        <Label fx:id="labelCount" layoutX="40.0" layoutY="72.0" prefHeight="23.0" prefWidth="90.0" />
+                                        <CheckBox fx:id="checkBoxLowCase" layoutX="85.0" layoutY="194.0" mnemonicParsing="false" onAction="#setToLowerCase" prefHeight="17.0" prefWidth="82.0" text="toLowCase" />
+                                        <CheckBox fx:id="checkBoxPathWithTest" layoutX="321.0" layoutY="125.0" mnemonicParsing="false" onAction="#setPathWithTest" prefHeight="17.0" prefWidth="77.0" text="Class test" />
+                                        <CheckBox fx:id="checkBoxCustom" layoutX="187.0" layoutY="100.0" mnemonicParsing="false" onAction="#onSetExtensionCustom" prefHeight="17.0" prefWidth="67.0" text="custom" />
+                                        <TextField fx:id="textFieldCustomExtension" layoutX="161.0" layoutY="118.0" prefHeight="25.0" prefWidth="146.0" />
+                                        <TextField fx:id="textFieldDontUseExtesion" layoutX="410.0" layoutY="91.0" prefHeight="44.0" prefWidth="434.0" />
+                                        <Label layoutX="419.0" layoutY="66.0" prefHeight="17.0" prefWidth="129.0" text="exclude - separate ' :  '" />
+                              <CheckBox fx:id="checkBoxAddForNameTab" layoutX="563.0" layoutY="66.0" mnemonicParsing="false" onAction="#setPathWithTest" prefHeight="17.0" prefWidth="137.0" text="add for the tab name" />
                                     </children>
                                 </Pane>
                             </children>

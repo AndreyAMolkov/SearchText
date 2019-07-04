@@ -61,6 +61,8 @@ public class Controller {
     @FXML
     public CheckBox checkBoxPathWithTest;
     @FXML
+    public CheckBox checkBoxAddForNameTab;
+    @FXML
     public TextField textFieldBasePath;
     @FXML
     public TextField textFieldSource;
@@ -437,7 +439,12 @@ public class Controller {
     private void createNewTab() {
         this.count = 0;
         Tab tab = new Tab();
-        String extensionLine = extension + "-X" + textFieldDontUseExtesion.getText();
+        String extensionLine;
+        if(checkBoxAddForNameTab.isSelected()) {
+            extensionLine = extension + "-X" + textFieldDontUseExtesion.getText();
+        }else{
+            extensionLine = extension;
+        }
         tab.setText(lookingFor + " " + extensionLine);
         tableView = new TableView();
         tab.setContent(tableView);
