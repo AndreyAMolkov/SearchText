@@ -348,7 +348,7 @@ public class Controller {
                     .collect(Collectors.toList());
             for (int i = 0; i < listAll.size(); i++) {
                 if (listAll.get(i) != null && toFindText(listAll.get(i))) {
-                    list.add("" + i + Constants.SEPARATOR + listAll.get(i));
+                    list.add("" + (i +1) + Constants.SEPARATOR + listAll.get(i));
                 }
             }
             if (!list.isEmpty()) {
@@ -446,6 +446,8 @@ public class Controller {
             extensionLine = extension;
         }
         tab.setText(lookingFor + " " + extensionLine);
+        tab.setClosable(true);
+
         tableView = new TableView();
         tab.setContent(tableView);
         listTab.add(tab);
